@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:orientation="vertical">
 
 
@@ -21,7 +20,7 @@
             android:id="@+id/edittext_email"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-
+            android:hint="อีเมล์"
             />
 
 
@@ -35,7 +34,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="รหัสผ่าน"
                 android:inputType="textPassword"
                 android:id="@+id/editpassword"
 
@@ -43,30 +42,31 @@
 
         </android.support.design.widget.TextInputLayout>
 
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/layout_edittext"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="login"
-            android:id="@+id/buttonLogin"
-            />
+            android:layout_gravity="center"
+            android:layout_below="@+id/layout_edittext"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="register"
-            android:id="@+id/buttonRegister"
-            />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="เข้าสู่ระบบ"
+                android:id="@+id/buttonLogin"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ลงทะเบียน"
+                android:id="@+id/buttonRegister"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>
