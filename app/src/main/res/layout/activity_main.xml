@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:hint="รหัสผ่าน"
                 android:inputType="textPassword"
-                android:id="@+id/editpassword"
+                android:id="@+id/edittext_password"
 
                 />
 

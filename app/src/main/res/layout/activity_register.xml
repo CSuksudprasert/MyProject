@@ -39,7 +39,7 @@
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="รหัสผ่าน"
+            android:hint="รหัสผ่าน(อย่างน้อย 8 ตัว)"
             android:inputType="textPassword"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"

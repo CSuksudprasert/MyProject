@@ -67,8 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
                 lname = lastname.getText().toString();
 
                 if(email.isEmpty() || pass.isEmpty() || cfpass.isEmpty() || fname.isEmpty() || lname.isEmpty() ){
-                    //Toast.makeText(RegisterActivity.this,"กรุณากรอกข้อมูลให้ครบถ้วน",Toast.LENGTH_SHORT).show();
-
                     AlertDialog.Builder dialog = new AlertDialog.Builder(RegisterActivity.this);
                     dialog.setTitle("ลงทะเบียนไม่สำเร็จ");
                     dialog.setMessage("กรุณากรอกข้อมูลให้ครบ");
@@ -142,8 +140,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean checkPassword(){
-        pass = editPassword.getText().toString().trim();
-        cfpass = confirmpass.getText().toString().trim();
         if(pass.length() >= 8 && pass.equals(cfpass)){
             return true;
         }
@@ -154,7 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean checkEmail(){
-        email = editEmail.getText().toString().trim();
         if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             return true;
         }
@@ -163,40 +158,4 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
     }
-
-//    //แก้ตรวนี้
-//    private void checkcfPassword(){
-//        mDatabaseReff = FirebaseDatabase.getInstance().getReference();
-//        final String cfpass = confirmpass.getText().toString().trim();
-//        final List<String> Users = new ArrayList<>();
-//        final boolean[] ch = {true};
-//
-//        mDatabaseReff.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Users.clear();
-//                List<String> keys = new ArrayList<>();
-//
-//                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                    keys.add(snapshot.getKey().);
-//                    User user = snapshot.getValue(User.class);
-//                    Users.add(user.getPass());
-//                    if(Users.contains(cfpass)){
-//                        ch[0] = false;
-//
-//                    }
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-
-
-
-
 }
