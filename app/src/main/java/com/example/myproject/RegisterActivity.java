@@ -49,12 +49,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        editEmail = (EditText) findViewById(R.id.editemail);
-        editPassword = (EditText) findViewById(R.id.editpassword);
-        confirmpass = (EditText) findViewById(R.id.cfpassword);
-        firstname = (EditText) findViewById(R.id.firstname);
-        lastname = (EditText) findViewById(R.id.lastname);
-        buttonFinish = (Button) findViewById(R.id.buttonFinish);
+        editEmail = findViewById(R.id.editemail);
+        editPassword =  findViewById(R.id.editpassword);
+        confirmpass =  findViewById(R.id.cfpassword);
+        firstname =  findViewById(R.id.firstname);
+        lastname =  findViewById(R.id.lastname);
+        buttonFinish =  findViewById(R.id.buttonFinish);
 
 
         buttonFinish.setOnClickListener(new View.OnClickListener() {
