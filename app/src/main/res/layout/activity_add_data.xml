@@ -1,76 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddDataActivity"
-    >
+    android:orientation="vertical"
+    tools:context=".AddDataActivity">
 
-    <LinearLayout
-        android:id="@+id/custom"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        >
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edittext_nameCustomer"
-            android:layout_width="300dp"
+        <LinearLayout
+            android:id="@+id/custom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="ชื่อ"
-
-            />
-
-        <EditText
-            android:id="@+id/edittxet_address"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="ที่อยู่"
-                />
-
-        <EditText
-            android:id="@+id/edittext_district"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="ตำบล"
-                />
-
-        <EditText
-            android:id="@+id/edittext_maung"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="อำเภอ"
-            />
-
-        <EditText
-            android:id="@+id/edittext_county"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="จังหวัด"
-            />
-
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="รหัสไปรษณีย์"
-            />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ค้นหา"
-            android:layout_gravity="center"
-            />
-
-    </LinearLayout>
+            android:orientation="vertical">
 
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/edittext_cus_fname"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="ชื่อ" />
+
+            <EditText
+                android:id="@+id/edittext_cus_lname"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="นามสกุล" />
+
+            <EditText
+                android:id="@+id/edittxet_number"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="บ้านเลขที่" />
+
+            <EditText
+                android:id="@+id/edittxet_drom"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="หอพัก" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp">
+
+                <EditText
+                    android:id="@+id/edittxet_roomnum"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:hint="เลขที่ห้อง"
+
+                    />
+
+                <EditText
+                    android:id="@+id/edittxet_floor"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:hint="ชั้น" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edittext_group"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="หมู่" />
+
+            <EditText
+                android:id="@+id/edittext_province"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="จังหวัด" />
+
+            <EditText
+                android:id="@+id/edittext_road"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="ถนน" />
+
+            <EditText
+                android:id="@+id/edittext_alley"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="ซอย" />
+
+            <EditText
+                android:id="@+id/edittext_subdistrict"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="ตำบล" />
+
+            <EditText
+                android:id="@+id/edittext_district"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="อำเภอ" />
+
+
+            <EditText
+                android:id="@+id/edittext_code"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:hint="รหัสไปรษณีย์" />
+
+            <Button
+                android:id="@+id/addData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="เพิ่มข้อมูล" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

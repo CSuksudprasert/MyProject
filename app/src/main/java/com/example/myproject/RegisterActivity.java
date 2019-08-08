@@ -79,6 +79,13 @@ public class RegisterActivity extends AppCompatActivity {
                         registerUserToFirebase();
                     }
                     else {
+//                        if(email.substring(-13).equals("@silpakorn.edu")){
+//
+//                        }
+//                        else {
+//                            Toast.makeText(RegisterActivity.this,"รูปแบบอีเมล์ไม่ถูกต้อง",Toast.LENGTH_SHORT).show();
+//                        }
+//
                         checkEmail();
                         checkPassword();
                     }
@@ -150,8 +157,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean checkEmail(){
-        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            return true;
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches() ){
+                return true;
+
         }
         else {
             Toast.makeText(RegisterActivity.this,"รูปแบบอีเมล์ไม่ถูกต้อง",Toast.LENGTH_SHORT).show();

@@ -81,23 +81,9 @@ public class MainActivity extends AppCompatActivity{
                                 }
                             }
                         });
-
             }
         });
     }
 
-//    private void chechlogiin(){
-//        firebaseAuth = FirebaseAuth.getInstance();
-//
-//        firebaseAuth.signInWithEmailAndPassword(email,pass)
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if(task.isSuccessful()){
-//
-//                        }
-//                    }
-//                });
-//    }
 
 }
