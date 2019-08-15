@@ -16,10 +16,14 @@ public class Customer {
     private String district;
     private String province;
     private String code;
+    private String latitude;
+    private String longtitude;
 
-    public Customer(){}
+    public Customer() {
+    }
 
-    public Customer(String cus_fname, String cus_lname, String number, String drom, String roomnum, String floor, String group, String road, String alley, String subdistrict, String district, String province, String code) {
+    public Customer(String cus_fname, String cus_lname, String number, String drom, String roomnum, String floor, String group, String road, String alley, String subdistrict, String district, String province, String code
+            , String latitude, String longtitude) {
         this.cus_fname = cus_fname;
         this.cus_lname = cus_lname;
         this.number = number;
@@ -33,6 +37,9 @@ public class Customer {
         this.district = district;
         this.province = province;
         this.code = code;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
+
     }
 
     public String getCus_fname() {
@@ -131,6 +138,22 @@ public class Customer {
         this.province = province;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
+    }
+
     public String getCode() {
         return code;
     }
@@ -139,7 +162,12 @@ public class Customer {
         this.code = code;
     }
 
-    public String toString(){
+    public String toString() {
         return cus_fname + " " + cus_lname;
+    }
+
+    public String address(){
+        return "เลขที่ "+number+" หอพัก "+drom+" ห้อง "+roomnum+" ชั้น "+floor+" หมู่ "+ group+" ถนน "+road+" ซอย "+alley+" ตำบล "+ subdistrict+" อำเภอ "+ district+" จังหวัด "+ province+" รหัสไปรษณีย์ " +code;
+
     }
 }

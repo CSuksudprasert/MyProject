@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +28,6 @@ public class ShowdataActivity extends AppCompatActivity {
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
     private Button nextto_adddata;
-    Customer cus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,19 @@ public class ShowdataActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ShowdataActivity.this,MapsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void listCustomer() {
-
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Customer");
-        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, arrayList);
+        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, arrayList);
 
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -80,6 +88,8 @@ public class ShowdataActivity extends AppCompatActivity {
 
             }
         });
+
     }
+
 
 }

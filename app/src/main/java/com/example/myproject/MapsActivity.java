@@ -15,31 +15,32 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private GoogleMap mMap;
-    Button buttonNormal;
-    Button buttonSatellite;
-    Button buttonHybrid;
-    SupportMapFragment mapFragment;
+    private Button buttonNormal;
+    private Button buttonSatellite;
+    private Button buttonHybrid;
+    private SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        buttonNormal = (Button) findViewById(R.id.buttonNormal);
-        buttonSatellite = (Button) findViewById(R.id.buttonSatellite);
-        buttonHybrid = (Button) findViewById(R.id.buttonHybrid);
+        buttonNormal = findViewById(R.id.buttonNormal);
+        buttonSatellite = findViewById(R.id.buttonSatellite);
+        buttonHybrid = findViewById(R.id.buttonHybrid);
 
         buttonNormal.setOnClickListener(this);
         buttonSatellite.setOnClickListener(this);
         buttonHybrid.setOnClickListener(this);
 
     }
-    public void onClick(View view){
-        switch (view.getId()){
+
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.buttonSatellite:
                 mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 break;
@@ -52,7 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 break;
         }
-      //  mapFragment.getMapAsync(this);
+        //  mapFragment.getMapAsync(this);
 
     }
 
@@ -75,7 +76,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(thai));
 
     }
-
 
 
 }

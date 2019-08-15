@@ -130,13 +130,41 @@
                 android:layout_marginBottom="5dp"
                 android:hint="รหัสไปรษณีย์" />
 
-            <Button
-                android:id="@+id/addData"
+            <TextView
+                android:id="@+id/latitude_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:text="เพิ่มข้อมูล" />
+
+                />
+            <TextView
+                android:id="@+id/longtitude_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp">
+
+                <Button
+                    android:id="@+id/addData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:text="เพิ่มข้อมูล" />
+
+                <Button
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="เพิ่มพิกัดปัจจุบัน" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

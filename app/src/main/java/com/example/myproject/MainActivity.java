@@ -68,19 +68,25 @@ public class MainActivity extends AppCompatActivity{
                 email = edittext_email.getText().toString();
                 pass = edittext_password.getText().toString();
 
-                firebaseAuth.signInWithEmailAndPassword(email,pass)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    Intent intent = new Intent(MainActivity.this,ShowdataActivity.class);
-                                    startActivity(intent);
+                if(!email.isEmpty() && !pass.isEmpty()){
+                    firebaseAuth.signInWithEmailAndPassword(email,pass)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        Intent intent = new Intent(MainActivity.this,ShowdataActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else{
+                                        Toast.makeText(MainActivity.this,"อีเมล์หรือรหัสผ่านไม่ถูกต้อง",Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                                else{
-                                    Toast.makeText(MainActivity.this,"อีเมล์หรือรหัสผ่านไม่ถูกต้อง",Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                            });
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"กรุณากรอกอีเมล์ และ รหัสผ่านให้ครบถ้วน",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
