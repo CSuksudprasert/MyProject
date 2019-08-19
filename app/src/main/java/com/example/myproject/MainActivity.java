@@ -1,6 +1,8 @@
 package com.example.myproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity{
         email = edittext_email.getText().toString();
         pass = edittext_password.getText().toString();
 
+
         buttonregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity{
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
                                         Intent intent = new Intent(MainActivity.this,ShowdataActivity.class);
+                                        System.out.println("xxxx");
                                         startActivity(intent);
                                     }
                                     else{
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+
     }
 
 

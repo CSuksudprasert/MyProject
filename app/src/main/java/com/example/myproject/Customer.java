@@ -166,8 +166,12 @@ public class Customer {
         return cus_fname + " " + cus_lname;
     }
 
-    public String address(){
-        return "เลขที่ "+number+" หอพัก "+drom+" ห้อง "+roomnum+" ชั้น "+floor+" หมู่ "+ group+" ถนน "+road+" ซอย "+alley+" ตำบล "+ subdistrict+" อำเภอ "+ district+" จังหวัด "+ province+" รหัสไปรษณีย์ " +code;
+    public String address() {
+        return "เลขที่ " + number + " หอพัก " + drom + " ห้อง " + roomnum + " ชั้น " + floor + " หมู่ " + group + " ถนน " + road +
+                " ซอย " + alley + " ตำบล " + subdistrict + " อำเภอ " + district + " จังหวัด " + province + " รหัสไปรษณีย์ " + code;
+    }
 
+    public String getlocation() {
+        return latitude + " " + longtitude;
     }
 }

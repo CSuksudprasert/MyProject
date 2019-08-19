@@ -3,10 +3,12 @@ package com.example.myproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -92,6 +94,7 @@ public class AddDataActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        //buildAlertMessageNoGps();
         getCount();
         addData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,6 +276,25 @@ public class AddDataActivity extends AppCompatActivity {
         });
     }
 
+//    //ขอให้เปิด gps
+//    protected void buildAlertMessageNoGps() {
+//
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("ต้องการเปิดตำแหน่งที่อยู่ของคุณหรือไม่")
+//                .setCancelable(false)
+//                .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, final int id) {
+//                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                    }
+//                })
+//                .setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, final int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//        final AlertDialog alert = builder.create();
+//        alert.show();
+//    }
 
 
 

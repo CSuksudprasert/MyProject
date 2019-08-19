@@ -5,11 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -20,14 +22,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class ShowdataActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabaseReference;
     ListView listView;
-    ArrayList<String> arrayList = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
     private Button nextto_adddata;
+    ArrayList<String> cusName = new ArrayList<>();
+    ArrayList<String> cusData = new ArrayList<>();
+    ArrayList<String> location = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,6 @@ public class ShowdataActivity extends AppCompatActivity {
         listView = findViewById(R.id.listview_cus);
         nextto_adddata = findViewById(R.id.nextto_adddata);
 
-        listCustomer();
         nextto_adddata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,26 +52,34 @@ public class ShowdataActivity extends AppCompatActivity {
             }
         });
 
+        listCustomer();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
+
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ShowdataActivity.this,MapsActivity.class);
+                Intent intent = new Intent(ShowdataActivity.this, MapsActivity.class);
+                intent.putExtra("Location", location.get(position)); // send location to map
+                intent.putExtra("CustomerName",cusName.get(position));
                 startActivity(intent);
             }
         });
     }
 
+
     private void listCustomer() {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference("Customer");
-        arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, arrayList);
 
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                listView.setAdapter(arrayAdapter);
+
                 Customer value = dataSnapshot.getValue(Customer.class);
-                arrayList.add(value.toString());
-                arrayAdapter.notifyDataSetChanged();
+                cusName.add(value.toString());
+                cusData.add(value.address());
+                location.add(value.getlocation());
+                CustomAdapter adapter = new CustomAdapter(getApplicationContext(),cusName,cusData);
+                listView.setAdapter(adapter);
             }
 
             @Override

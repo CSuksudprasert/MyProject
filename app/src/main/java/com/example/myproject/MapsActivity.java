@@ -1,16 +1,22 @@
 package com.example.myproject;
 
+import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -19,6 +25,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button buttonSatellite;
     private Button buttonHybrid;
     private SupportMapFragment mapFragment;
+    private double latitude = 0.0;
+    private double longtitue = 0.0;
+    String name ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonNormal.setOnClickListener(this);
         buttonSatellite.setOnClickListener(this);
         buttonHybrid.setOnClickListener(this);
+
+        Bundle bundle = getIntent().getExtras();
+        String location = bundle.getString("Location");
+        name = bundle.getString("CustomerName");
+        String[] lct = location.split(" ");
+        latitude = Double.parseDouble(lct[2]);
+        longtitue = Double.parseDouble(lct[5]);
+        //System.out.println(lct[2] + " : "+lct[5]);
+        //System.out.println("latitude : " + latitude + " longtitude : " + longtitue);
 
     }
 
@@ -70,10 +88,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng thai = new LatLng(5, 97);
-        mMap.addMarker(new MarkerOptions().position(thai).title("Marker in Thailand")); //mark ที่ปัจจุบัน
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(thai));
+        LatLng location = new LatLng(latitude, longtitue);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,15));
+        mMap.addMarker(new MarkerOptions().position(location).title(name)); //mark ที่ปัจจุบัน
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
 
     }
 
