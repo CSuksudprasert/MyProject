@@ -8,11 +8,35 @@
     tools:context=".ShowdataActivity">
 
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        />
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        />
+
+    <ImageButton
+        android:id="@+id/qrcode"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_qrcode"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        />
+
     <Button
         android:id="@+id/nextto_adddata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="เพิ่มข้อมูล"
+        android:layout_below="@+id/toolbar"
 
         />
     <LinearLayout

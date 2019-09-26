@@ -22,6 +22,7 @@ public class CustomAdapter extends BaseAdapter {
     }
 
 
+
     public int getCount(){
         return cusName.size();
     }
@@ -51,6 +52,9 @@ public class CustomAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+
+
 
 
 }

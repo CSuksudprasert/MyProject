@@ -62,16 +62,13 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:hint="เลขที่ห้อง"
-                    android:inputType="number"
-
                     />
 
                 <EditText
                     android:id="@+id/edittxet_floor"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:hint="ชั้น"
-                    android:inputType="number"/>
+                    android:hint="ชั้น" />
 
 
             </LinearLayout>
@@ -90,7 +87,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
-                android:hint="จังหวัด" />
+                android:spinnerMode="dropdown"
+                android:hint="จังหวัด"
+
+                />
 
             <EditText
                 android:id="@+id/edittext_road"

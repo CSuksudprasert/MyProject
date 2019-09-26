@@ -3,12 +3,10 @@ package com.example.myproject;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -17,9 +15,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +54,7 @@ public class AddDataActivity extends AppCompatActivity {
     private EditText editText_subdistrict;
     private EditText editText_district;
     private EditText editText_province;
+    private Spinner spinner_province;
     private EditText editText_code;
     private Button addData;
     private Button location_button;
@@ -64,16 +65,16 @@ public class AddDataActivity extends AppCompatActivity {
     Customer cus;
     long id;
     private FusedLocationProviderClient fusedLocationClient;
-    String cus_fname,cus_lname,number,drom,roomnum,floor,group,road,alley,subdistrict,district,provice,code,cus_id;
+    String cus_fname,cus_lname,number,drom,roomnum,floor,group,road,alley,subdistrict,district,provices,code,cus_id,prov;
     boolean check = false;
 
-    ArrayList<String> arrayList = new ArrayList<>();
+    ArrayList<String> provinceList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_data);
 
-        getSupportActionBar().hide();  //ทำให้บาข้างบนสุดหายไป
+       // getSupportActionBar().hide();  //ทำให้บาข้างบนสุดหายไป
         editTextcus_fname = findViewById(R.id.edittext_cus_fname);
         editTextcus_lname = findViewById(R.id.edittext_cus_lname);
         editText_number = findViewById(R.id.edittxet_number);
@@ -85,7 +86,8 @@ public class AddDataActivity extends AppCompatActivity {
         editText_alley = findViewById(R.id.edittext_alley);
         editText_subdistrict = findViewById(R.id.edittext_subdistrict);
         editText_district = findViewById(R.id.edittext_district);
-        editText_province = findViewById(R.id.edittext_province);
+        editText_province=findViewById(R.id.edittext_province);
+        //spinner_province = findViewById(R.id.edittext_province);
         editText_code = findViewById(R.id.edittext_code);
         addData = findViewById(R.id.addData);
         location_button = findViewById(R.id.location);
@@ -94,7 +96,7 @@ public class AddDataActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        //buildAlertMessageNoGps();
+        //เก็บข้อมูลลง firebase
         getCount();
         addData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,13 +112,30 @@ public class AddDataActivity extends AppCompatActivity {
                 alley = editText_alley.getText().toString();
                 subdistrict = editText_subdistrict.getText().toString();
                 district = editText_district.getText().toString();
-                provice = editText_province.getText().toString();
+                provices = editText_province.getText().toString();
+                //provices = spinner_province.toString();
                 code = editText_code.getText().toString();
 
+//                createProvice();
+//                final ArrayAdapter<String> adapter_province = new ArrayAdapter<String>(AddDataActivity.this,
+//                        android.R.layout.simple_dropdown_item_1line,provinceList);
+//
+//                spinner_province.setAdapter(adapter_province);
+//                spinner_province.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                        prov = provinceList.get(position);
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) {
+//
+//                    }
+//                });
 
                 if(cus_fname.isEmpty() || cus_lname.isEmpty() || number.isEmpty()|| drom.isEmpty() ||roomnum.isEmpty()||
                     floor.isEmpty() || group.isEmpty() || road.isEmpty() ||alley.isEmpty() ||subdistrict.isEmpty()||
-                    district.isEmpty() || provice.isEmpty() || code.isEmpty() || !check){
+                    district.isEmpty() || provices.isEmpty()|| code.isEmpty() || !check){
 
                     AlertDialog.Builder dialog = new AlertDialog.Builder(AddDataActivity.this)
                             .setTitle("กรุณากรอกข้อมูลให้ครบถ้วน")
@@ -141,6 +160,8 @@ public class AddDataActivity extends AppCompatActivity {
 
     }
 
+
+//ขอพิกัดปัจจุบัน
     private void fetchLocation() {
         if (ContextCompat.checkSelfPermission(AddDataActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -232,6 +253,7 @@ public class AddDataActivity extends AppCompatActivity {
         cus.setSubdistrict(editText_subdistrict.getText().toString().trim());
         cus.setDistrict(editText_district.getText().toString().trim());
         cus.setProvince(editText_province.getText().toString().trim());
+        //cus.setProvince(prov);
         cus.setCode(editText_code.getText().toString().trim());
         cus.setLatitude(latitude_textview.getText().toString());
         cus.setLongtitude(longtitude_txetview.getText().toString());
@@ -276,26 +298,83 @@ public class AddDataActivity extends AppCompatActivity {
         });
     }
 
-//    //ขอให้เปิด gps
-//    protected void buildAlertMessageNoGps() {
-//
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("ต้องการเปิดตำแหน่งที่อยู่ของคุณหรือไม่")
-//                .setCancelable(false)
-//                .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
-//                    public void onClick(final DialogInterface dialog, final int id) {
-//                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-//                    }
-//                })
-//                .setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
-//                    public void onClick(final DialogInterface dialog, final int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//        final AlertDialog alert = builder.create();
-//        alert.show();
-//    }
-
-
+    private void createProvice(){
+        provinceList.add("กรุงเทพมหานคร ");
+        provinceList.add("กระบี่");
+        provinceList.add("กาญจนบุรี");
+        provinceList.add("กาฬสินธุ์");
+        provinceList.add("กำแพงเพชร");
+        provinceList.add("ขอนแก่น");
+        provinceList.add("จันทบุรี");
+        provinceList.add("ฉะเชิงเทรา");
+        provinceList.add("ชลบุรี");
+        provinceList.add("ชัยนาท");
+        provinceList.add("ชัยภูมิ");
+        provinceList.add("ชุมพร");
+        provinceList.add("เชียงราย");
+        provinceList.add("เชียงใหม่");
+        provinceList.add("ตรัง");
+        provinceList.add("ตราด");
+        provinceList.add("ตาก");
+        provinceList.add("นครนายก");
+        provinceList.add("นครปฐม");
+        provinceList.add("นครราชสีมา");
+        provinceList.add("นครศรีธรรมราช");
+        provinceList.add("นครสวรรค์");
+        provinceList.add("นนทบุรี");
+        provinceList.add("นราธิวาส");
+        provinceList.add("น่าน");
+        provinceList.add("บึงกาฬ");
+        provinceList.add("บุรีรัมย์");
+        provinceList.add("ปทุมธานี");
+        provinceList.add("ประจวบคีรีขันธ์");
+        provinceList.add("ปราจีนบุรี");
+        provinceList.add("ปัตตานี");
+        provinceList.add("พระนครศรีอยุธยา");
+        provinceList.add("พังงา");
+        provinceList.add("พัทลุง");
+        provinceList.add("พิจิตร");
+        provinceList.add("พิษณุโลก");
+        provinceList.add("เพชรบุรี");
+        provinceList.add("เพชรบูรณ์");
+        provinceList.add("แพร่");
+        provinceList.add("พะเยา");
+        provinceList.add("ภูเก็ต");
+        provinceList.add("มหาสารคาม");
+        provinceList.add("มุกดาหาร");
+        provinceList.add("แม่ฮ่องสอน");
+        provinceList.add("ยะลา");
+        provinceList.add("ยโสธร");
+        provinceList.add("ร้อยเอ็ด");
+        provinceList.add("ระนอง ");
+        provinceList.add("ระยอง");
+        provinceList.add("ราชบุรี ");
+        provinceList.add("ลพบุรี ");
+        provinceList.add("ลำปาง");
+        provinceList.add("ลำพูน");
+        provinceList.add("เลย");
+        provinceList.add("ศรีสะเกษ");
+        provinceList.add("สกลนคร ");
+        provinceList.add("สงขลา ");
+        provinceList.add("สตูล");
+        provinceList.add("สมุทรปราการ");
+        provinceList.add("สมุทรสงคราม");
+        provinceList.add("สมุทรสาคร");
+        provinceList.add("สระแก้ว");
+        provinceList.add("สระบุรี");
+        provinceList.add("สิงห์บุรี");
+        provinceList.add("สุโขทัย");
+        provinceList.add("สุพรรณบุรี");
+        provinceList.add("สุราษฎร์ธานี");
+        provinceList.add("สุรินทร์");
+        provinceList.add("หนองคาย");
+        provinceList.add("หนองบัวลำภู");
+        provinceList.add("อ่างทอง");
+        provinceList.add("อุดรธานี");
+        provinceList.add("อุทัยธานี");
+        provinceList.add("อุตรดิตถ์");
+        provinceList.add("อุบลราชธานี");
+        provinceList.add("อำนาจเจริญ");
+    }
 
 }

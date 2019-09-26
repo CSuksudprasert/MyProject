@@ -27,7 +27,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SupportMapFragment mapFragment;
     private double latitude = 0.0;
     private double longtitue = 0.0;
-    String name ;
+    String name,address ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bundle bundle = getIntent().getExtras();
         String location = bundle.getString("Location");
         name = bundle.getString("CustomerName");
+       // address = bundle.getString("CusAddress");
         String[] lct = location.split(" ");
         latitude = Double.parseDouble(lct[2]);
         longtitue = Double.parseDouble(lct[5]);
