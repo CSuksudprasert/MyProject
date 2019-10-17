@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class ShowdataActivity extends AppCompatActivity {
     MaterialSearchView searchView;
     ImageButton qrbuttom;
     android.support.v7.widget.Toolbar toolbar;
+   // SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class ShowdataActivity extends AppCompatActivity {
             }
         });
 
+
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
@@ -88,6 +91,7 @@ public class ShowdataActivity extends AppCompatActivity {
 
             }
         });
+
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -125,6 +129,15 @@ public class ShowdataActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+//        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                listCustomer();
+//            }
+//        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

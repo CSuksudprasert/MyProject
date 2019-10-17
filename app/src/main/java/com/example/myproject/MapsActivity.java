@@ -51,11 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         name = bundle.getString("CustomerName");
        // address = bundle.getString("CusAddress");
         String[] lct = location.split(" ");
-        latitude = Double.parseDouble(lct[2]);
-        longtitue = Double.parseDouble(lct[5]);
-        //System.out.println(lct[2] + " : "+lct[5]);
-        //System.out.println("latitude : " + latitude + " longtitude : " + longtitue);
-
+        latitude = Double.parseDouble(lct[0]);
+        longtitue = Double.parseDouble(lct[1]);
+        //System.out.println(lct[1] + " : "+lct[2]);
+        System.out.println("latitude : " + latitude + " longtitude : " + longtitue);
+        //**ละติจูตลองติจูตไม่ตรง
     }
 
     public void onClick(View view) {

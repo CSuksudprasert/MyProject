@@ -45,16 +45,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_below="@+id/nextto_adddata"
+
         >
 
-        <ListView
-            android:id="@+id/listview_cus"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+<!--        <andriod.support.v4.widget.SwipeRefreshLayout-->
+<!--            android:id="@+id/swipe_refresh_layout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            >-->
 
-            >
+            <ListView
+                android:id="@+id/listview_cus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-        </ListView>
+                >
+
+            </ListView>
+<!--        </andriod.support.v4.widget.SwipeRefreshLayout>-->
+
 
     </LinearLayout>
 

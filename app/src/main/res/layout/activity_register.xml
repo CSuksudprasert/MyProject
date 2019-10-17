@@ -18,14 +18,22 @@
         android:layout_marginTop="50dp"
         />
 
+    <LinearLayout
+        android:id="@+id/layout_edittext"
+        android:layout_width="320dp"
+        android:layout_height="270dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_monmon"
+        android:orientation="vertical">
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
         android:hint="อีเมล์"
         android:id="@+id/editemail"
-        android:fontFamily="@font/novel"
 
         />
 
@@ -41,8 +49,8 @@
             android:layout_height="wrap_content"
             android:hint="รหัสผ่าน(อย่างน้อย 8 ตัว)"
             android:inputType="textPassword"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:id="@+id/editpassword"
 
             />
@@ -61,8 +69,8 @@
             android:layout_height="wrap_content"
             android:hint="ยืนยันรหัสผ่าน"
             android:inputType="textPassword"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:id="@+id/cfpassword"
 
             />
@@ -71,26 +79,30 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:hint="ชื่อ"
         android:id="@+id/firstname"
         />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:hint="นามสกุล"
         android:id="@+id/lastname"
         />
 
-    <Button
+    </LinearLayout>
+
+     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="ยืนยัน"
         android:id="@+id/buttonFinish"
+         android:layout_marginTop="20dp"
+        android:background="@drawable/bg_buttom"
         />
 
 </LinearLayout>

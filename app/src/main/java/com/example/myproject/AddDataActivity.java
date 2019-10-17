@@ -67,6 +67,7 @@ public class AddDataActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     String cus_fname,cus_lname,number,drom,roomnum,floor,group,road,alley,subdistrict,district,provices,code,cus_id,prov;
     boolean check = false;
+    double latitude,longtitude;
 
     ArrayList<String> provinceList = new ArrayList<>();
     @Override
@@ -214,8 +215,8 @@ public class AddDataActivity extends AppCompatActivity {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 // Logic to handle location object
-                                double latitude = location.getLatitude();
-                                double longtitude = location.getLongitude();
+                                latitude = location.getLatitude();
+                                longtitude = location.getLongitude();
 
                                 latitude_textview.setText("Latitude : " + latitude );
                                 longtitude_txetview.setText("Longtitude : " + longtitude);
@@ -255,14 +256,17 @@ public class AddDataActivity extends AppCompatActivity {
         cus.setProvince(editText_province.getText().toString().trim());
         //cus.setProvince(prov);
         cus.setCode(editText_code.getText().toString().trim());
-        cus.setLatitude(latitude_textview.getText().toString());
-        cus.setLongtitude(longtitude_txetview.getText().toString());
+        cus.setLatitude(String.valueOf(latitude));
+        cus.setLongtitude(String.valueOf(longtitude));
 
     }
 
     private void setAdd() {
         cus_id = String.valueOf(id);
-        mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
+
+        mDatabaseReff = FirebaseDatabase.getInstance().getReference();
+        //mDatabaseReff.child("Customer").push().setValue()
+        String cus_id = mDatabaseReff.getKey();
         cus = new Customer();
         mdata = mDatabaseReff.child(cus_id);
 
@@ -271,6 +275,7 @@ public class AddDataActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 getValue();
                 mdata.setValue(cus);
+                //mDatabaseReff.child("Customer").push().setValue(cus);
                 Toast.makeText(AddDataActivity.this, "เพิ่มข้อมูลสำเร็จ", Toast.LENGTH_SHORT).show();
                 finish();
             }
