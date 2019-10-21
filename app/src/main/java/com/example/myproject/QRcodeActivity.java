@@ -169,42 +169,30 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
                         number = cusAddress[++i];
                         n = n + number;
                     }
-                    if (cusAddress[i].contains("ถนน")) {
-                        road = cusAddress[++i];
-                        n = n + road;
-                    }
-                    else {
-                        road = "-";
+                    if (cusAddress[i].equals("ถนน")) {
+                        road = cusAddress[i+1];
                         n = n + road;
                     }
                     if (cusAddress[i].contains("หอพัก")) {
                         drom = cusAddress[i + 1];
                         n = n + drom;
-                    } else {
-                        drom = "-";
-                        n = n + drom;
                     }
-                    if (cusAddress[i].contains("เลขที่ห้อง")) {
+
+                    if (cusAddress[i].contains("เลขที่ห้อง")||cusAddress[i].contains("ห้อง")) {
                         roomnum = cusAddress[i + 1];
                         n = n + roomnum;
-                    } else {
-                        roomnum = "-";
-                        n = n + roomnum;
                     }
+
                     if (cusAddress[i].contains("ชั้น")) {
                         floor = cusAddress[i + 1];
                         n = n + floor;
-                    } else {
-                        floor = "-";
-                        n = n + floor;
                     }
+
                     if (cusAddress[i].contains("หมู่")) {
                         group = cusAddress[i + 1];
                         n = n + group;
-                    } else {
-                        group = "-";
-                        n = n + group;
                     }
+
                     if (cusAddress[i].contains("จังหวัด")) {
                         provices = cusAddress[i + 1];
                         n = n + provices;
@@ -213,10 +201,8 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
                     if (cusAddress[i].contains("ซอย")) {
                         alley = cusAddress[i + 1];
                         n = n + alley;
-                    } else {
-                        alley = "-";
-                        n = n + alley;
                     }
+
                     if (cusAddress[i].contains("ตำบล")) {
                         subdistrict = cusAddress[i + 1];
                         n = n + subdistrict;
@@ -240,15 +226,15 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
                 //กดตกลงแล้วจะกลับมาหน้ากล้อง
                 fetchLocation();
                 setAdd();
+
                 mScannerView.resumeCameraPreview((QRcodeActivity.this));
             }
         })
                 .show();
 
-//        String n = number +" "+ drom +" "+ roomnum + " "+floor+" "+group+" "+provices+" "+road+" "+alley+" "+subdistrict+" "+district+" "+code;
-//        System.out.println(n);
-//        builder.setMessage(n);
     }
+
+    //เช็คว่ารายชื่อมีอยู่แล้วหรือยัง ถ้ามีแล้วให้ไปหน้าmap ถ้ายังจะเพิ่มข้อมูล
 
     public void checkCus() {
         mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
@@ -257,6 +243,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 value = dataSnapshot.getValue(Customer.class);
+
 
             }
 
@@ -418,5 +405,3 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
         });
     }
 }
-
-//ถนนยังไม่ขึ้นจากการสแกนคิวอาโค้ด

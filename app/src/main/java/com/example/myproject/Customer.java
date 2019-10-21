@@ -19,6 +19,8 @@ public class Customer {
     private String latitude;
     private String longtitude;
 
+    String add_num, add_drom, add_rnum, add_f, add_g, add_r, add_al, add_subdis, add_dis, add_pro, add_code;
+
     public Customer() {
     }
 
@@ -162,13 +164,79 @@ public class Customer {
         this.code = code;
     }
 
-    public String toString() {
+    public String name() {
         return cus_fname + " " + cus_lname;
     }
 
     public String address() {
+        if (number == null) {
+            number = "-";
+        }
+//        else {
+//            number = "เลขที่ " + number;
+//        }
+        if (drom == null) {
+            drom = "-";
+        }
+//        else {
+//            drom = " หอพัก " + drom;
+//        }
+        if (roomnum == null) {
+            roomnum = "-";
+        }
+//        else {
+//            roomnum = " ห้อง " + roomnum;
+//        }
+        if (floor == null) {
+            floor = "-";
+        }
+//        else {
+//            floor = " ชั้น " + floor;
+//        }
+        if (group == null) {
+            group = "-";
+        }
+//        else {
+//            group = " หมู่ " + group;
+//        }
+        if (road == null) {
+            road = "-";
+        }
+//        else {
+//            road = " ถนน " + road;
+//        }
+        if (alley == null) {
+            alley = "-";
+        }
+//        else {
+//            alley = " ซอย " + alley;
+//        }
+        if (subdistrict == null) {
+            subdistrict = "-";
+        }
+//        else {
+//            subdistrict = " ตำบล " + subdistrict;
+//        }
+        if (district == null) {
+            district = "-";
+        }
+//        else {
+//            district = " อำเภอ " + district;
+//        }
+        if (province == null) {
+            province = "-";
+        }
+//        else {
+//            province = " จังหวัด " + province;
+//        }
+
         return "เลขที่ " + number + " หอพัก " + drom + " ห้อง " + roomnum + " ชั้น " + floor + " หมู่ " + group + " ถนน " + road +
                 " ซอย " + alley + " ตำบล " + subdistrict + " อำเภอ " + district + " จังหวัด " + province + " รหัสไปรษณีย์ " + code;
+
+//        return number +  drom +  roomnum +  floor +  group + road +
+//                 alley +  subdistrict + district +  province + " รหัสไปรษณีย์ " + code;
+
+        // return add_num + add_drom + add_rnum + add_f + add_g + add_r + add_al + add_subdis + add_dis + add_pro + " รหัสไปรษณีย์ " + code;
     }
 
     public String getlocation() {

@@ -1,12 +1,15 @@
 package com.example.myproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.firebase.database.ChildEventListener;
@@ -38,7 +42,7 @@ public class ShowdataActivity extends AppCompatActivity {
     ArrayList<String> cusData = new ArrayList<>();
     ArrayList<String> location = new ArrayList<>();
     MaterialSearchView searchView;
-    ImageButton qrbuttom;
+    ImageButton qrbuttom,toallmap;
     android.support.v7.widget.Toolbar toolbar;
    // SwipeRefreshLayout swipeRefreshLayout;
 
@@ -51,6 +55,7 @@ public class ShowdataActivity extends AppCompatActivity {
         nextto_adddata = findViewById(R.id.nextto_adddata);
         toolbar = findViewById(R.id.toolbar);
         qrbuttom = findViewById(R.id.qrcode);
+        toallmap = findViewById(R.id.buttonto_allmap);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("      รายชื่อ");
 
@@ -79,7 +84,8 @@ public class ShowdataActivity extends AppCompatActivity {
             }
         });
 
-
+        registerForContextMenu(listView);
+        
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
@@ -130,6 +136,13 @@ public class ShowdataActivity extends AppCompatActivity {
             }
         });
 
+        toallmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowdataActivity.this,allMapActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 //        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -157,7 +170,7 @@ public class ShowdataActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 Customer value = dataSnapshot.getValue(Customer.class);
-                cusName.add(value.toString());
+                cusName.add(value.name());
                 cusData.add(value.address());
                 location.add(value.getlocation());
                 CustomAdapter adapter = new CustomAdapter(getApplicationContext(),cusName,cusData);
@@ -187,5 +200,23 @@ public class ShowdataActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public  void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu,v,menuInfo);
 
+        getMenuInflater().inflate(R.menu.chioce_menu,menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.qrcode:
+                Toast.makeText(ShowdataActivity.this,"ได้แล้วจ้าา",Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+
+    }
 }

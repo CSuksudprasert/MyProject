@@ -97,6 +97,8 @@ public class AddDataActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+
+
         //เก็บข้อมูลลง firebase
         getCount();
         addData.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +136,7 @@ public class AddDataActivity extends AppCompatActivity {
 //                    }
 //                });
 
+
                 if(cus_fname.isEmpty() || cus_lname.isEmpty() || number.isEmpty()|| drom.isEmpty() ||roomnum.isEmpty()||
                     floor.isEmpty() || group.isEmpty() || road.isEmpty() ||alley.isEmpty() ||subdistrict.isEmpty()||
                     district.isEmpty() || provices.isEmpty()|| code.isEmpty() || !check){
@@ -147,6 +150,7 @@ public class AddDataActivity extends AppCompatActivity {
                 else{
                     setAdd();
                 }
+
 
             }
         });
@@ -242,18 +246,20 @@ public class AddDataActivity extends AppCompatActivity {
     }
 
     private void getValue() {
-        cus.setCus_fname(editTextcus_fname.getText().toString().trim());
-        cus.setCus_lname(editTextcus_lname.getText().toString().trim());
-        cus.setNumber(editText_number.getText().toString().trim());
-        cus.setDrom(editText_drom.getText().toString().trim());
-        cus.setRoomnum(editText_roomnum.getText().toString().trim());
-        cus.setFloor(editText_floor.getText().toString().trim());
-        cus.setGroup(editText_group.getText().toString().trim());
-        cus.setRoad(editText_road.getText().toString().trim());
-        cus.setAlley(editText_alley.getText().toString().trim());
-        cus.setSubdistrict(editText_subdistrict.getText().toString().trim());
-        cus.setDistrict(editText_district.getText().toString().trim());
-        cus.setProvince(editText_province.getText().toString().trim());
+        cus.setCus_fname(cus_fname);
+        cus.setCus_lname(cus_lname);
+        cus.setNumber(number);
+        cus.setDrom(drom);
+        cus.setRoomnum(roomnum);
+        cus.setFloor(floor);
+        cus.setGroup(group);
+        cus.setRoad(road);
+        cus.setAlley(alley);
+        cus.setSubdistrict(subdistrict);
+        cus.setDistrict(district);
+        cus.setProvince(provices);
+        //cus.setProvince(prov);
+        cus.setCode(code);
         //cus.setProvince(prov);
         cus.setCode(editText_code.getText().toString().trim());
         cus.setLatitude(String.valueOf(latitude));
@@ -264,9 +270,9 @@ public class AddDataActivity extends AppCompatActivity {
     private void setAdd() {
         cus_id = String.valueOf(id);
 
-        mDatabaseReff = FirebaseDatabase.getInstance().getReference();
+        mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
         //mDatabaseReff.child("Customer").push().setValue()
-        String cus_id = mDatabaseReff.getKey();
+       //String cus_id = mDatabaseReff.getKey();
         cus = new Customer();
         mdata = mDatabaseReff.child(cus_id);
 

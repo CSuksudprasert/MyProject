@@ -2,6 +2,8 @@ package com.example.myproject;
 
 import android.location.Location;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +17,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -28,6 +37,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double latitude = 0.0;
     private double longtitue = 0.0;
     String name,address ;
+//    DatabaseReference databaseReference ;
+//    ArrayList<String> lalong = new ArrayList<>();
+//    Map<String ,ArrayList> markerCus = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +100,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        float zoomLevel = 16.0f;
         LatLng location = new LatLng(latitude, longtitue);
+
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location,15));
         mMap.addMarker(new MarkerOptions().position(location).title(name)); //mark ที่ปัจจุบัน
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,zoomLevel));
 
     }
+
+
+//    private void markeCus(){
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Customer");
+//
+//        databaseReference.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                Customer cus = dataSnapshot.getValue(Customer.class);
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 
 }
