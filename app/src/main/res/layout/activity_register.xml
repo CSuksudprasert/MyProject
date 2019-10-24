@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
+    tools:context=".activity.RegisterActivity"
+    android:background="@drawable/bgall"
     android:orientation="vertical"
     >
 
@@ -24,7 +25,10 @@
         android:layout_height="270dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/bg_monmon"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
+
 
     <EditText
         android:layout_width="match_parent"

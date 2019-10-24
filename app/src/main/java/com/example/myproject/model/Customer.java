@@ -1,4 +1,4 @@
-package com.example.myproject;
+package com.example.myproject.model;
 
 import android.widget.EditText;
 

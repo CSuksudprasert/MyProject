@@ -1,4 +1,4 @@
-package com.example.myproject;
+package com.example.myproject.activity;
 
 import android.location.Location;
 import android.net.Uri;
@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myproject.R;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

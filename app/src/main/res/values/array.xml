@@ -2,6 +2,5 @@
 <resources>
     <string-array name="menu">
         <item>คิวอาร์โค้ด</item>
-        <item>ลบ</item>
     </string-array>
 </resources>
