@@ -1,7 +1,5 @@
 package com.example.myproject.model;
 
-import android.widget.EditText;
-
 public class Customer {
     private String cus_fname;
     private String cus_lname;

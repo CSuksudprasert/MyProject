@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseReff;
     private FirebaseDatabase db;
     User user;
-    String email,pass,cfpass,fname,lname ="";
+    String email,pass,cfpass,fname,lname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         firstname =  findViewById(R.id.firstname);
         lastname =  findViewById(R.id.lastname);
         buttonFinish =  findViewById(R.id.buttonFinish);
+
 
 
         buttonFinish.setOnClickListener(new View.OnClickListener() {
@@ -66,26 +67,17 @@ public class RegisterActivity extends AppCompatActivity {
                     dialog.setPositiveButton("ยืนยัน",null);
                     dialog.show();
                 }
-
-                else{
-                    if(checkPassword() && checkEmail()){
+                else {
+                    if(checkPassword() && checkEmail(email)){
                         registerUserToFirebase();
                     }
-                    else {
-//                        if(email.substring(-13).equals("@silpakorn.edu")){
-//
-//                        }
-//                        else {
-//                            Toast.makeText(RegisterActivity.this,"รูปแบบอีเมล์ไม่ถูกต้อง",Toast.LENGTH_SHORT).show();
-//                        }
-//
-                        checkEmail();
-                        checkPassword();
-                    }
+
 
                 }
             }
         });
+
+
     }
 
     private void getValue(){
@@ -149,9 +141,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkEmail(){
-        if(Patterns.EMAIL_ADDRESS.matcher(email).matches() ){
-                return true;
+    private boolean checkEmail(String email){
+
+        email = editEmail.getText().toString();
+        System.out.println("EMAIL >> "+ email);
+
+        String str = email.substring(email.indexOf("@")+1);
+        System.out.println("SS >> "+str);
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches() && str.equals("silpakorn.edu") ){
+            return true;
+
 
         }
         else {

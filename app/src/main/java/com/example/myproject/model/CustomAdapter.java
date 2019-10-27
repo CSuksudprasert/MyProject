@@ -14,19 +14,18 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
     Context context;
-    ArrayList<String> cusName;
-    ArrayList<String> cusData;
+//    ArrayList<String> cusName;
+    ArrayList<Customer> cusData;
 
-    public CustomAdapter(Context context, ArrayList<String> cusName, ArrayList<String> cusData) {
+    public CustomAdapter(Context context,ArrayList<Customer> cusData) {
         this.context = context;
-        this.cusName = cusName;
         this.cusData = cusData;
     }
 
 
 
     public int getCount(){
-        return cusName.size();
+        return cusData.size();
     }
 
     @Override
@@ -47,10 +46,10 @@ public class CustomAdapter extends BaseAdapter {
              convertView = inflater.inflate(R.layout.list_item,parent,false);
 
         TextView textView1 = convertView.findViewById(R.id.text1);
-        textView1.setText(cusName.get(position));
+        textView1.setText(cusData.get(position).name());
 
         TextView textView2 = convertView.findViewById(R.id.text2);
-        textView2.setText(cusData.get(position));
+        textView2.setText(cusData.get(position).address());
 
         return convertView;
     }

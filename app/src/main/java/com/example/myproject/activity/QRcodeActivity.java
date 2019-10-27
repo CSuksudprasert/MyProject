@@ -2,6 +2,7 @@ package com.example.myproject.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -27,6 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 
+import java.util.ArrayList;
+
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
@@ -35,14 +38,17 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private ZXingScannerView mScannerView;
     private static final int REQUEST_CAMERA = 1;
-    DatabaseReference mDatabaseReff, mdata, mCount;
-    Customer value, cus;
+    DatabaseReference mdata, mCount;
+    Customer cus;
     String cus_id;
     long id;
     private FusedLocationProviderClient fusedLocationClient;
     boolean check = false;
     String cus_fname, cus_lname, number, drom, roomnum, floor, group, road, alley, subdistrict, district, provices, code;
     double latitude, longtitude;
+    ArrayList<Customer> value = new ArrayList<>();
+    boolean ch = false;
+    String ch_num = null, ch_road = null, ch_drom = null, ch_roomnum = null, ch_floor = null, ch_group = null, ch_provices = null, ch_alley = null, ch_subdistrict = null, ch_district = null, ch_code = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,119 +146,43 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
 
     @Override
     public void handleResult(Result rawResult) {
-        String result = rawResult.getText();
+        final String result = rawResult.getText();
         final String[] cusAddress = result.split(" ");
-        //Toast.makeText(getApplicationContext(),"เชื่อมได้แล้วนะ",Toast.LENGTH_LONG).show();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-         builder.setMessage(result);
 
-        getCount();
-        builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference().child("Customer");
+
+        mDatabaseReff.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                checkCus();
-                // ถ้า checkCus ทั้งหมดตรงกับค่าในดาต้าเบส จะไปที่แผนที่
-                cus_fname = cusAddress[0];
-                cus_lname = cusAddress[1];
-                //n = cus_fname + cus_lname;
-                for (int i = 2; i < cusAddress.length; i++) {
-                    if (cusAddress[i].contains("บ้านเลขที่")|| cusAddress[i].contains("เลขที่")) {
-                        number = cusAddress[++i];
-                        n = n + number;
-                    }
-                    if (cusAddress[i].equals("ถนน")) {
-                        road = cusAddress[i+1];
-                        n = n + road;
-                    }
-                    if (cusAddress[i].contains("หอพัก")) {
-                        drom = cusAddress[i + 1];
-                        n = n + drom;
-                    }
-
-                    if (cusAddress[i].contains("เลขที่ห้อง")||cusAddress[i].contains("ห้อง")) {
-                        roomnum = cusAddress[i + 1];
-                        n = n + roomnum;
-                    }
-
-                    if (cusAddress[i].contains("ชั้น")) {
-                        floor = cusAddress[i + 1];
-                        n = n + floor;
-                    }
-
-                    if (cusAddress[i].contains("หมู่")) {
-                        group = cusAddress[i + 1];
-                        n = n + group;
-                    }
-
-                    if (cusAddress[i].contains("จังหวัด")) {
-                        provices = cusAddress[i + 1];
-                        n = n + provices;
-                    }
-
-                    if (cusAddress[i].contains("ซอย")) {
-                        alley = cusAddress[i + 1];
-                        n = n + alley;
-                    }
-
-                    if (cusAddress[i].contains("ตำบล")) {
-                        subdistrict = cusAddress[i + 1];
-                        n = n + subdistrict;
-                    }
-
-                    if (cusAddress[i].contains("อำเภอ")) {
-                        district = cusAddress[i + 1];
-                        n = n + district;
-                    }
-
-                    if (cusAddress[i].contains("รหัสไปรษณีย์")) {
-                        code = cusAddress[i + 1];
-                        n = n + code;
-                    }
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Customer cus = snapshot.getValue(Customer.class);
+                    value.add(cus);
                 }
 
-//        for (String i : cusAddress) {
-//            n += i;
-//        }
-                System.out.println(n);
-                //กดตกลงแล้วจะกลับมาหน้ากล้อง
-                fetchLocation();
-                setAdd();
-
-                mScannerView.resumeCameraPreview((QRcodeActivity.this));
-            }
-        })
-                .show();
-
-    }
-
-    //เช็คว่ารายชื่อมีอยู่แล้วหรือยัง ถ้ามีแล้วให้ไปหน้าmap ถ้ายังจะเพิ่มข้อมูล
-
-    public void checkCus() {
-        mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
-
-        mDatabaseReff.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                value = dataSnapshot.getValue(Customer.class);
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+//                for (int i = 0; i < value.size(); i++) {
+//                    System.out.println("II : "+i);
+//                    System.out.println(value.get(i).getNumber());
+//                    System.out.println(value.get(i).getCus_fname());
+//                    System.out.println(value.get(i).getCus_lname());
+//                    System.out.println(value.get(i).getAlley());
+//                    System.out.println(value.get(i).getCode());
+//                    System.out.println(value.get(i).getDistrict());
+//                    System.out.println(value.get(i).getDrom());
+//                    System.out.println(value.get(i).getFloor());
+//                    System.out.println(value.get(i).getGroup());
+//                    System.out.println(value.get(i).getLatitude());
+//                    System.out.println(value.get(i).getLongtitude());
+//                    System.out.println(value.get(i).getProvince());
+//                    System.out.println(value.get(i).getRoad());
+//                    System.out.println(value.get(i).getRoomnum());
+//                    System.out.println(value.get(i).getSubdistrict());
+//                    System.out.println("-------------------------");
+//
+//                }
+                checkCus(cusAddress);
+                showDialod(result);
+//                System.out.println("เเข้าตรงนี้นะจ๊ะ");
             }
 
             @Override
@@ -260,7 +190,180 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             }
         });
+        //System.out.println("handleResult" + value.get(0).getNumber());
+
+
     }
+
+    public void showDialod(String result){
+
+        final String[] cusAddress = result.split(" ");
+        //Toast.makeText(getApplicationContext(),"เชื่อมได้แล้วนะ",Toast.LENGTH_LONG).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(result);
+        if (ch) {
+            getCount();
+            builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    // ถ้า checkCus ทั้งหมดตรงกับค่าในดาต้าเบส จะไปที่แผนที่
+                    cus_fname = cusAddress[0];
+                    cus_lname = cusAddress[1];
+                    //n = cus_fname + cus_lname;
+                    for (int i = 2; i < cusAddress.length; i++) {
+                        if (cusAddress[i].contains("บ้านเลขที่") || cusAddress[i].contains("เลขที่")) {
+                            number = cusAddress[++i];
+                            n = n + number;
+                        }
+                        if (cusAddress[i].contains("ถนน") || cusAddress[i].contains("ถ.")) {
+                            road = cusAddress[i + 1];
+                            n = n + road;
+                        }
+                        if (cusAddress[i].contains("หอพัก")) {
+                            drom = cusAddress[i + 1];
+                            n = n + drom;
+                        }
+
+                        if (cusAddress[i].contains("เลขที่ห้อง") || cusAddress[i].contains("ห้อง")) {
+                            roomnum = cusAddress[i + 1];
+                            n = n + roomnum;
+                        }
+
+                        if (cusAddress[i].contains("ชั้น")) {
+                            floor = cusAddress[i + 1];
+                            n = n + floor;
+                        }
+
+                        if (cusAddress[i].contains("หมู่") || cusAddress[i].contains("ม.")) {
+                            group = cusAddress[i + 1];
+                            n = n + group;
+                        }
+
+                        if (cusAddress[i].contains("จังหวัด") || cusAddress[i].contains("จ.")) {
+                            provices = cusAddress[i + 1];
+                            n = n + provices;
+                        }
+
+                        if (cusAddress[i].contains("ซอย") || cusAddress[i].contains("ซ.")) {
+                            alley = cusAddress[i + 1];
+                            n = n + alley;
+                        }
+
+                        if (cusAddress[i].contains("ตำบล") || cusAddress[i].contains("ต.")) {
+                            subdistrict = cusAddress[i + 1];
+                            n = n + subdistrict;
+                        }
+
+                        if (cusAddress[i].contains("อำเภอ") || cusAddress[i].contains("อ.")) {
+                            district = cusAddress[i + 1];
+                            n = n + district;
+                        }
+
+                        if (cusAddress[i].contains("รหัสไปรษณีย์")) {
+                            code = cusAddress[i + 1];
+                            n = n + code;
+                        }
+                    }
+
+                    System.out.println(n);
+                    //กดตกลงแล้วจะกลับมาหน้ากล้อง
+                    fetchLocation();
+                    setAdd();
+
+                    mScannerView.resumeCameraPreview((QRcodeActivity.this));
+                }
+            })
+                    .show();
+        } else {
+            //AlertDialog.Builder builders = new AlertDialog.Builder(this);
+            builder.setTitle("มีข้อมูลอยู่แล้ว")
+                    .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            QRcodeActivity.this.finish();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    //เช็คว่ารายชื่อมีอยู่แล้วหรือยัง ถ้ามีแล้วให้ไปหน้าmap ถ้ายังจะเพิ่มข้อมูล
+
+    public void checkCus(String[] cusAddress) {
+
+        for (int i = 2; i < cusAddress.length; i++) {
+
+            //System.out.println("*****");
+            if (cusAddress[i].contains("บ้านเลขที่") || cusAddress[i].contains("เลขที่")) {
+                ch_num = cusAddress[++i];
+            }
+            if (cusAddress[i].contains("ถนน") || cusAddress[i].contains("ถ.")) {
+                ch_road = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("หอพัก") || cusAddress[i].contains("หอ")) {
+                ch_drom = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("เลขที่ห้อง") || cusAddress[i].contains("ห้อง")) {
+                ch_roomnum = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("ชั้น")) {
+                ch_floor = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("หมู่") || cusAddress[i].contains("ม.")) {
+                ch_group = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("จังหวัด") || cusAddress[i].contains("จ.")) {
+                ch_provices = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("ซอย") || cusAddress[i].contains("ซ.")) {
+                ch_alley = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("ตำบล") || cusAddress[i].contains("ต.")) {
+                ch_subdistrict = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("อำเภอ") || cusAddress[i].contains("อ.")) {
+                ch_district = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("รหัสไปรษณีย์")) {
+                ch_code = cusAddress[i + 1];
+            }
+        }
+
+        //System.out.println(value.size());
+        for (int i = 0; i < value.size(); i++) {
+//            System.out.println("++++");
+//            System.out.println("size : " + value.size());
+//            System.out.println("name - "+value.get(i).getCus_fname() +" "+ cusAddress[0]);
+//            System.out.println("lname - "+value.get(i).getCus_lname()+" "+ cusAddress[1]);
+//            System.out.println("sub - "+ value.get(i).getSubdistrict()+" "+ ch_subdistrict);
+//            System.out.println("num "+value.get(i).getNumber() +" "+ ch_num);
+
+            if (value.get(i).getCus_fname().equals(cusAddress[0]) && value.get(i).getCus_lname().equals(cusAddress[1])) {
+                if (value.get(i).getSubdistrict().contains(ch_subdistrict)) {
+                    System.out.println("IN1");
+                    if (value.get(i).getNumber().contains(ch_num)) {
+                        System.out.println("IN2");
+                        ch = false;
+                        break;
+                    } else {
+                        ch = true;
+                        break;
+                    }
+                } else {
+                    ch = true;
+                    break;
+                }
+
+            } else {
+                ch = true;
+                //break;
+            }
+
+        }
+    }
+
 
     //ขอพิกัดปัจจุบัน
     public void fetchLocation() {
@@ -362,7 +465,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
 
     private void setAdd() {
         cus_id = String.valueOf(id);
-        mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
+        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
         cus = new Customer();
         mdata = mDatabaseReff.child(cus_id);
 
