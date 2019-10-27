@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                     dialog.show();
                 }
                 else {
-                    if(checkPassword() && checkEmail(email)){
+                    if(checkPassword() && checkEmail()){
                         registerUserToFirebase();
                     }
 
@@ -141,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkEmail(String email){
+    private boolean checkEmail(){
 
         email = editEmail.getText().toString();
         System.out.println("EMAIL >> "+ email);

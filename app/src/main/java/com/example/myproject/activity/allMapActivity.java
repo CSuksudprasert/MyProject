@@ -71,7 +71,7 @@ public class allMapActivity extends FragmentActivity implements OnMapReadyCallba
 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        final float zoomLevel = 10.0f;
+        final float zoomLevel = 13.0f;
         //LatLng location = new LatLng(latitude, longtitue);
 
 //        int padding = 0; // offset from edges of the map in pixels

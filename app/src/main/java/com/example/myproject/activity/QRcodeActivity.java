@@ -341,9 +341,9 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
 //            System.out.println("num "+value.get(i).getNumber() +" "+ ch_num);
 
             if (value.get(i).getCus_fname().equals(cusAddress[0]) && value.get(i).getCus_lname().equals(cusAddress[1])) {
-                if (value.get(i).getSubdistrict().contains(ch_subdistrict)) {
+                if (value.get(i).getSubdistrict().equals(ch_subdistrict)) {
                     System.out.println("IN1");
-                    if (value.get(i).getNumber().contains(ch_num)) {
+                    if (value.get(i).getNumber().equals(ch_num)) {
                         System.out.println("IN2");
                         ch = false;
                         break;
@@ -465,7 +465,10 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
 
     private void setAdd() {
         cus_id = String.valueOf(id);
+
         final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
+        //mDatabaseReff.child("Customer").push().setValue()
+        //String cus_id = mDatabaseReff.getKey();
         cus = new Customer();
         mdata = mDatabaseReff.child(cus_id);
 
