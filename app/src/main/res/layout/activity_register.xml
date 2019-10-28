@@ -38,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:hint="อีเมล์"
         android:id="@+id/editemail"
-
+        android:inputType="text"
         />
 
     <android.support.design.widget.TextInputLayout
@@ -56,6 +56,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:id="@+id/editpassword"
+
 
             />
 
@@ -87,6 +88,7 @@
         android:layout_marginRight="30dp"
         android:hint="ชื่อ"
         android:id="@+id/firstname"
+        android:inputType="text"
         />
     <EditText
         android:layout_width="match_parent"
@@ -95,6 +97,7 @@
         android:layout_marginRight="30dp"
         android:hint="นามสกุล"
         android:id="@+id/lastname"
+        android:inputType="text"
         />
 
     </LinearLayout>

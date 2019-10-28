@@ -113,11 +113,6 @@ public class allMapActivity extends FragmentActivity implements OnMapReadyCallba
         });
 
 
-
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
-//        mMap.addMarker(new MarkerOptions().position(location).title(name)); //mark ที่ปัจจุบัน
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
-
     }
 
 
@@ -140,41 +135,6 @@ public class allMapActivity extends FragmentActivity implements OnMapReadyCallba
 
     }
 
-//    public void getCustomer(){
-//        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference().child("Customer");
-//
-//        mDatabaseReff.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    Customer cus = snapshot.getValue(Customer.class);
-//                    lalong.add(cus);
-//                }
-//
-////
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
 
-//    private void getCount(){
-//        mCount = FirebaseDatabase.getInstance().getReference("Customer");
-//        mCount.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                id = dataSnapshot.getChildrenCount();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 
 }

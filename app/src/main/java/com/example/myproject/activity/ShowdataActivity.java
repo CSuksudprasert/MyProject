@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -38,6 +42,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -46,13 +51,14 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
 import java.util.ArrayList;
+import java.util.Hashtable;
+
 
 public class ShowdataActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabaseReference;
     ListView listView;
     private Button nextto_adddata;
-    ArrayList<String> cusName = new ArrayList<>();
     ArrayList<Customer> cusData = new ArrayList<>();
     ArrayList<String> location = new ArrayList<>();
     MaterialSearchView searchView;
@@ -60,10 +66,13 @@ public class ShowdataActivity extends AppCompatActivity {
     android.support.v7.widget.Toolbar toolbar;
     ImageView imageView;
     MultiFormatWriter multi = new MultiFormatWriter();
+    Customer cus;
+    String cus_fname, cus_lname, number, drom, roomnum, floor, group, road, alley, subdistrict, district, provices, code, latitude, longtitude;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    // SwipeRefreshLayout swipeRefreshLayout;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,7 @@ public class ShowdataActivity extends AppCompatActivity {
         nextto_adddata = findViewById(R.id.nextto_adddata);
         toolbar = findViewById(R.id.toolbar);
         qrbuttom = findViewById(R.id.qrcode);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("      รายชื่อ");
@@ -91,6 +101,23 @@ public class ShowdataActivity extends AppCompatActivity {
         });
 
         listCustomer();
+
+        //รีเฟรชหน้า
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+
+                Toast.makeText(ShowdataActivity.this,"Refresh",Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                },1000);
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -190,6 +217,7 @@ public class ShowdataActivity extends AppCompatActivity {
 
         final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
 
+//        System.out.println("listCustomer : ----------");
         mDatabaseReff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -243,11 +271,82 @@ public class ShowdataActivity extends AppCompatActivity {
                 MyCustomDialog(data);
 
                 return true;
+
+            case R.id.save:
+
+                String dt = cusData.get(index).name() + " " + cusData.get(index).address();
+                System.out.println("DATA >>" + dt);
+
+                cus_fname = cusData.get(index).getCus_fname();
+                cus_lname = cusData.get(index).getCus_lname();
+                number = cusData.get(index).getNumber();
+                drom = cusData.get(index).getDrom();
+                roomnum = cusData.get(index).getRoomnum();
+                floor = cusData.get(index).getFloor();
+                group = cusData.get(index).getGroup();
+                road = cusData.get(index).getRoad();
+                alley = cusData.get(index).getAlley();
+                subdistrict = cusData.get(index).getSubdistrict();
+                district = cusData.get(index).getDistrict();
+                provices = cusData.get(index).getProvince();
+                code = cusData.get(index).getCode();
+                latitude = cusData.get(index).getLatitude();
+                longtitude = cusData.get(index).getLongtitude();
+
+                saveList();
+
+                return true;
+
             default:
                 return super.onContextItemSelected(item);
 
         }
 
+    }
+
+    private void getValue() {
+        cus.setCus_fname(cus_fname);
+        cus.setCus_lname(cus_lname);
+        cus.setNumber(number);
+        cus.setDrom(drom);
+        cus.setRoomnum(roomnum);
+        cus.setFloor(floor);
+        cus.setGroup(group);
+        cus.setRoad(road);
+        cus.setAlley(alley);
+        cus.setSubdistrict(subdistrict);
+        cus.setDistrict(district);
+        cus.setProvince(provices);
+        //cus.setProvince(prov);
+        cus.setCode(code);
+        cus.setLatitude(String.valueOf(latitude));
+        cus.setLongtitude(String.valueOf(longtitude));
+    }
+
+    public void saveList(){
+        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("ListSave");
+        //mDatabaseReff.child("Customer").push().setValue()
+        //String cus_id = mDatabaseReff.getKey();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        final String userid = firebaseUser.getUid();
+        cus = new Customer();
+        final DatabaseReference reference = mDatabaseReff.child(userid).push();
+
+        mDatabaseReff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                getValue();
+                reference.setValue(cus);
+                Toast.makeText(ShowdataActivity.this, "เก็บข้อมูลในบันทึก", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void MyCustomDialog(String cus_item) {
@@ -256,9 +355,13 @@ public class ShowdataActivity extends AppCompatActivity {
         imageView = findViewById(R.id.iv_qrcode);
 
         try {
-            BitMatrix bitmatrix = multi.encode(cus_item, BarcodeFormat.QR_CODE, 300, 300);
+            Hashtable hit = new Hashtable();
+            hit.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+            BitMatrix bitmatrix = multi.encode(cus_item, BarcodeFormat.QR_CODE, 300, 300, hit);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitmatrix);
+
             imageView.setImageBitmap(bitmap);
             //Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
             System.out.println("BITMAP >> " + bitmap);
@@ -273,33 +376,45 @@ public class ShowdataActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.allmap:
-                Intent intent = new Intent(ShowdataActivity.this, allMapActivity.class);
-                startActivity(intent);
-                //Toast.makeText(this,"allmap",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ShowdataActivity.this, allMapActivity.class));
+                Toast.makeText(this, "allmap", Toast.LENGTH_SHORT).show();
+                return true;
 
             case R.id.logout:
+                Intent intent1 = new Intent(ShowdataActivity.this, MainActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent1);
 
-//                AlertDialog.Builder dialog = new AlertDialog.Builder(ShowdataActivity.this);
-//                dialog.setMessage("คุณต้องการออกจากระบบหรือไม่");
-//                dialog.setCancelable(true);
-//                dialog.setPositiveButton("ยืนยัน", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseAuth.getInstance().signOut();
-                        Intent intent1 = new Intent(ShowdataActivity.this, MainActivity.class);
-                        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent1);
+                Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
+                return true;
 
-//                        Toast.makeText(ShowdataActivity.this, "logout", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//                dialog.setNegativeButton("ยกเลิก",null);
+            case R.id.forsend:
+                startActivity(new Intent(ShowdataActivity.this, listOfSendActivity.class));
+                Toast.makeText(this, "forsend", Toast.LENGTH_SHORT).show();
+                return true;
 
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
 
+    }
+
+    public void getData(){
+        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
+
+        mDatabaseReff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                swipeRefreshLayout.isRefreshing();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

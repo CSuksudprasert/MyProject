@@ -12,48 +12,53 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        />
+        android:background="@color/colorPrimary" />
+
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
-        />
+        android:textColor="#000000" />
+
 
     <ImageButton
         android:id="@+id/qrcode"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@drawable/ic_qrcode"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_qrcode" />
 
     <Button
         android:id="@+id/nextto_adddata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="เพิ่มข้อมูล"
-        android:background="@drawable/bg_buttom"
         android:layout_below="@+id/toolbar"
+        android:background="@drawable/bg_buttom"
+        android:text="เพิ่มข้อมูล"
 
         />
-    <LinearLayout
-        android:id="@+id/customer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_below="@+id/nextto_adddata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        >
+        <LinearLayout
+            android:id="@+id/customer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
 
-<!--        <andriod.support.v4.widget.SwipeRefreshLayout-->
-<!--            android:id="@+id/swipe_refresh_layout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            >-->
+            >
+
+            <!--        <andriod.support.v4.widget.SwipeRefreshLayout-->
+            <!--            android:id="@+id/swipe_refresh_layout"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            >-->
 
             <ListView
                 android:id="@+id/listview_cus"
@@ -64,10 +69,10 @@
                 >
 
             </ListView>
-<!--        </andriod.support.v4.widget.SwipeRefreshLayout>-->
+            <!--        </andriod.support.v4.widget.SwipeRefreshLayout>-->
 
+        </LinearLayout>
 
-    </LinearLayout>
-
-
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <!-- -->
 </RelativeLayout>

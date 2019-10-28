@@ -38,7 +38,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private ZXingScannerView mScannerView;
     private static final int REQUEST_CAMERA = 1;
-    DatabaseReference mdata, mCount;
+    DatabaseReference  mCount,mdata;
     Customer cus;
     String cus_id;
     long id;
@@ -46,7 +46,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
     boolean check = false;
     String cus_fname, cus_lname, number, drom, roomnum, floor, group, road, alley, subdistrict, district, provices, code;
     double latitude, longtitude;
-    ArrayList<Customer> value = new ArrayList<>();
+    ArrayList<Customer> value = new ArrayList<>() ;
     boolean ch = false;
     String ch_num = null, ch_road = null, ch_drom = null, ch_roomnum = null, ch_floor = null, ch_group = null, ch_provices = null, ch_alley = null, ch_subdistrict = null, ch_district = null, ch_code = null;
 
@@ -67,6 +67,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
                 requestPermissions();
             }
         }
+
     }
 
     private void requestPermissions() {
@@ -149,7 +150,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
         final String result = rawResult.getText();
         final String[] cusAddress = result.split(" ");
 
-
+       // value =  new ArrayList<>();
         final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference().child("Customer");
 
         mDatabaseReff.addValueEventListener(new ValueEventListener() {
@@ -160,26 +161,27 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
                     value.add(cus);
                 }
 
-//                for (int i = 0; i < value.size(); i++) {
-//                    System.out.println("II : "+i);
-//                    System.out.println(value.get(i).getNumber());
-//                    System.out.println(value.get(i).getCus_fname());
-//                    System.out.println(value.get(i).getCus_lname());
-//                    System.out.println(value.get(i).getAlley());
-//                    System.out.println(value.get(i).getCode());
-//                    System.out.println(value.get(i).getDistrict());
-//                    System.out.println(value.get(i).getDrom());
-//                    System.out.println(value.get(i).getFloor());
-//                    System.out.println(value.get(i).getGroup());
-//                    System.out.println(value.get(i).getLatitude());
-//                    System.out.println(value.get(i).getLongtitude());
-//                    System.out.println(value.get(i).getProvince());
-//                    System.out.println(value.get(i).getRoad());
-//                    System.out.println(value.get(i).getRoomnum());
-//                    System.out.println(value.get(i).getSubdistrict());
-//                    System.out.println("-------------------------");
-//
-//                }
+                for (int i = 0; i < value.size(); i++) {
+                    System.out.println("II : "+i);
+                    System.out.println(value.get(i).getNumber());
+                    System.out.println(value.get(i).getCus_fname());
+                    System.out.println(value.get(i).getCus_lname());
+                    System.out.println(value.get(i).getAlley());
+                    System.out.println(value.get(i).getCode());
+                    System.out.println(value.get(i).getDistrict());
+                    System.out.println(value.get(i).getDrom());
+                    System.out.println(value.get(i).getFloor());
+                    System.out.println(value.get(i).getGroup());
+                    System.out.println(value.get(i).getLatitude());
+                    System.out.println(value.get(i).getLongtitude());
+                    System.out.println(value.get(i).getProvince());
+                    System.out.println(value.get(i).getRoad());
+                    System.out.println(value.get(i).getRoomnum());
+                    System.out.println(value.get(i).getSubdistrict());
+                    System.out.println("-------------------------");
+
+                }
+
                 checkCus(cusAddress);
                 showDialod(result);
 //                System.out.println("เเข้าตรงนี้นะจ๊ะ");
@@ -200,8 +202,11 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
         final String[] cusAddress = result.split(" ");
         //Toast.makeText(getApplicationContext(),"เชื่อมได้แล้วนะ",Toast.LENGTH_LONG).show();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
 
         builder.setMessage(result);
+        builder1.setMessage(result);
+
         if (ch) {
             getCount();
             builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
@@ -277,11 +282,14 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
             })
                     .show();
         } else {
-            //AlertDialog.Builder builders = new AlertDialog.Builder(this);
-            builder.setTitle("มีข้อมูลอยู่แล้ว")
+
+            builder1.setTitle("มีข้อมูลอยู่แล้ว")
                     .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+//                            for(int i =0;i<value.size();i++){
+//                                System.out.println(value.get(i).name());
+//                            }
                             QRcodeActivity.this.finish();
                         }
                     })
@@ -297,7 +305,7 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
 
             //System.out.println("*****");
             if (cusAddress[i].contains("บ้านเลขที่") || cusAddress[i].contains("เลขที่")) {
-                ch_num = cusAddress[++i];
+                ch_num = cusAddress[i+1];
             }
             if (cusAddress[i].contains("ถนน") || cusAddress[i].contains("ถ.")) {
                 ch_road = cusAddress[i + 1];
@@ -332,36 +340,42 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
         }
 
         //System.out.println(value.size());
-        for (int i = 0; i < value.size(); i++) {
-//            System.out.println("++++");
-//            System.out.println("size : " + value.size());
-//            System.out.println("name - "+value.get(i).getCus_fname() +" "+ cusAddress[0]);
-//            System.out.println("lname - "+value.get(i).getCus_lname()+" "+ cusAddress[1]);
-//            System.out.println("sub - "+ value.get(i).getSubdistrict()+" "+ ch_subdistrict);
-//            System.out.println("num "+value.get(i).getNumber() +" "+ ch_num);
+        if(value.size() == 0){
+            ch =true;
+        }
+        else {
+            for (int i = 0; i < value.size(); i++) {
+                System.out.println("++++");
+                System.out.println("size : " + value.size());
+                System.out.println("name - "+value.get(i).getCus_fname() +" "+ cusAddress[0]);
+                System.out.println("lname - "+value.get(i).getCus_lname()+" "+ cusAddress[1]);
+                System.out.println("sub - "+ value.get(i).getSubdistrict()+" "+ ch_subdistrict);
+                System.out.println("num "+value.get(i).getNumber() +" "+ ch_num);
 
-            if (value.get(i).getCus_fname().equals(cusAddress[0]) && value.get(i).getCus_lname().equals(cusAddress[1])) {
-                if (value.get(i).getSubdistrict().equals(ch_subdistrict)) {
-                    System.out.println("IN1");
-                    if (value.get(i).getNumber().equals(ch_num)) {
-                        System.out.println("IN2");
-                        ch = false;
-                        break;
+                if (value.get(i).getCus_fname().equals(cusAddress[0]) && value.get(i).getCus_lname().equals(cusAddress[1])) {
+                    if (value.get(i).getSubdistrict().equals(ch_subdistrict)) {
+                        System.out.println("IN1");
+                        if (value.get(i).getNumber().equals(ch_num)) {
+                            System.out.println("IN2");
+                            ch = false;
+                            break;
+                        } else {
+                            ch = true;
+                            break;
+                        }
                     } else {
                         ch = true;
                         break;
                     }
+
                 } else {
                     ch = true;
-                    break;
+                    //break;
                 }
 
-            } else {
-                ch = true;
-                //break;
             }
-
         }
+
     }
 
 
@@ -464,13 +478,13 @@ public class QRcodeActivity extends AppCompatActivity implements ZXingScannerVie
     }
 
     private void setAdd() {
-        cus_id = String.valueOf(id);
+       // cus_id = String.valueOf(id);
 
         final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
         //mDatabaseReff.child("Customer").push().setValue()
         //String cus_id = mDatabaseReff.getKey();
         cus = new Customer();
-        mdata = mDatabaseReff.child(cus_id);
+        mdata = mDatabaseReff.push();
 
         mDatabaseReff.addValueEventListener(new ValueEventListener() {
             @Override

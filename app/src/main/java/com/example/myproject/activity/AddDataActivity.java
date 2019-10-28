@@ -62,6 +62,10 @@ public class AddDataActivity extends AppCompatActivity {
     boolean check = false;
     double latitude,longtitude;
 
+    String ch_num = null, ch_road = null, ch_drom = null, ch_roomnum = null, ch_floor = null, ch_group = null, ch_provices = null, ch_alley = null, ch_subdistrict = null, ch_district = null, ch_code = null;
+    ArrayList<Customer> value = new ArrayList<>() ;
+    boolean ch = false;
+
     ArrayList<String> provinceList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,13 +265,13 @@ public class AddDataActivity extends AppCompatActivity {
     }
 
     private void setAdd() {
-        cus_id = String.valueOf(id);
+       // cus_id = String.valueOf(id);
 
         mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
         //mDatabaseReff.child("Customer").push().setValue()
-       //String cus_id = mDatabaseReff.getKey();
+        //String cus_id = mDatabaseReff.getKey();
         cus = new Customer();
-        mdata = mDatabaseReff.child(cus_id);
+        mdata = mDatabaseReff.push();
 
         mDatabaseReff.addValueEventListener(new ValueEventListener() {
             @Override
@@ -302,83 +306,163 @@ public class AddDataActivity extends AppCompatActivity {
         });
     }
 
-    private void createProvice(){
-        provinceList.add("กรุงเทพมหานคร ");
-        provinceList.add("กระบี่");
-        provinceList.add("กาญจนบุรี");
-        provinceList.add("กาฬสินธุ์");
-        provinceList.add("กำแพงเพชร");
-        provinceList.add("ขอนแก่น");
-        provinceList.add("จันทบุรี");
-        provinceList.add("ฉะเชิงเทรา");
-        provinceList.add("ชลบุรี");
-        provinceList.add("ชัยนาท");
-        provinceList.add("ชัยภูมิ");
-        provinceList.add("ชุมพร");
-        provinceList.add("เชียงราย");
-        provinceList.add("เชียงใหม่");
-        provinceList.add("ตรัง");
-        provinceList.add("ตราด");
-        provinceList.add("ตาก");
-        provinceList.add("นครนายก");
-        provinceList.add("นครปฐม");
-        provinceList.add("นครราชสีมา");
-        provinceList.add("นครศรีธรรมราช");
-        provinceList.add("นครสวรรค์");
-        provinceList.add("นนทบุรี");
-        provinceList.add("นราธิวาส");
-        provinceList.add("น่าน");
-        provinceList.add("บึงกาฬ");
-        provinceList.add("บุรีรัมย์");
-        provinceList.add("ปทุมธานี");
-        provinceList.add("ประจวบคีรีขันธ์");
-        provinceList.add("ปราจีนบุรี");
-        provinceList.add("ปัตตานี");
-        provinceList.add("พระนครศรีอยุธยา");
-        provinceList.add("พังงา");
-        provinceList.add("พัทลุง");
-        provinceList.add("พิจิตร");
-        provinceList.add("พิษณุโลก");
-        provinceList.add("เพชรบุรี");
-        provinceList.add("เพชรบูรณ์");
-        provinceList.add("แพร่");
-        provinceList.add("พะเยา");
-        provinceList.add("ภูเก็ต");
-        provinceList.add("มหาสารคาม");
-        provinceList.add("มุกดาหาร");
-        provinceList.add("แม่ฮ่องสอน");
-        provinceList.add("ยะลา");
-        provinceList.add("ยโสธร");
-        provinceList.add("ร้อยเอ็ด");
-        provinceList.add("ระนอง ");
-        provinceList.add("ระยอง");
-        provinceList.add("ราชบุรี ");
-        provinceList.add("ลพบุรี ");
-        provinceList.add("ลำปาง");
-        provinceList.add("ลำพูน");
-        provinceList.add("เลย");
-        provinceList.add("ศรีสะเกษ");
-        provinceList.add("สกลนคร ");
-        provinceList.add("สงขลา ");
-        provinceList.add("สตูล");
-        provinceList.add("สมุทรปราการ");
-        provinceList.add("สมุทรสงคราม");
-        provinceList.add("สมุทรสาคร");
-        provinceList.add("สระแก้ว");
-        provinceList.add("สระบุรี");
-        provinceList.add("สิงห์บุรี");
-        provinceList.add("สุโขทัย");
-        provinceList.add("สุพรรณบุรี");
-        provinceList.add("สุราษฎร์ธานี");
-        provinceList.add("สุรินทร์");
-        provinceList.add("หนองคาย");
-        provinceList.add("หนองบัวลำภู");
-        provinceList.add("อ่างทอง");
-        provinceList.add("อุดรธานี");
-        provinceList.add("อุทัยธานี");
-        provinceList.add("อุตรดิตถ์");
-        provinceList.add("อุบลราชธานี");
-        provinceList.add("อำนาจเจริญ");
+
+    public void checkCus(String[] cusAddress) {
+
+        for (int i = 2; i < cusAddress.length; i++) {
+
+            //System.out.println("*****");
+            if (cusAddress[i].contains("บ้านเลขที่") || cusAddress[i].contains("เลขที่")) {
+                ch_num = cusAddress[i+1];
+            }
+            if (cusAddress[i].contains("ถนน") || cusAddress[i].contains("ถ.")) {
+                ch_road = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("หอพัก") || cusAddress[i].contains("หอ")) {
+                ch_drom = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("เลขที่ห้อง") || cusAddress[i].contains("ห้อง")) {
+                ch_roomnum = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("ชั้น")) {
+                ch_floor = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("หมู่") || cusAddress[i].contains("ม.")) {
+                ch_group = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("จังหวัด") || cusAddress[i].contains("จ.")) {
+                ch_provices = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("ซอย") || cusAddress[i].contains("ซ.")) {
+                ch_alley = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("ตำบล") || cusAddress[i].contains("ต.")) {
+                ch_subdistrict = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("อำเภอ") || cusAddress[i].contains("อ.")) {
+                ch_district = cusAddress[i + 1];
+            }
+            if (cusAddress[i].contains("รหัสไปรษณีย์")) {
+                ch_code = cusAddress[i + 1];
+            }
+        }
+
+        //System.out.println(value.size());
+        if(value.size() == 0){
+            ch =true;
+        }
+        else {
+            for (int i = 0; i < value.size(); i++) {
+                System.out.println("++++");
+                System.out.println("size : " + value.size());
+                System.out.println("name - "+value.get(i).getCus_fname() +" "+ cusAddress[0]);
+                System.out.println("lname - "+value.get(i).getCus_lname()+" "+ cusAddress[1]);
+                System.out.println("sub - "+ value.get(i).getSubdistrict()+" "+ ch_subdistrict);
+                System.out.println("num "+value.get(i).getNumber() +" "+ ch_num);
+
+                if (value.get(i).getCus_fname().equals(cusAddress[0]) && value.get(i).getCus_lname().equals(cusAddress[1])) {
+                    if (value.get(i).getSubdistrict().equals(ch_subdistrict)) {
+                        System.out.println("IN1");
+                        if (value.get(i).getNumber().equals(ch_num)) {
+                            System.out.println("IN2");
+                            ch = false;
+                            break;
+                        } else {
+                            ch = true;
+                            break;
+                        }
+                    } else {
+                        ch = true;
+                        break;
+                    }
+
+                } else {
+                    ch = true;
+                    //break;
+                }
+
+            }
+        }
+
     }
+
+//    private void createProvice(){
+//        provinceList.add("กรุงเทพมหานคร ");
+//        provinceList.add("กระบี่");
+//        provinceList.add("กาญจนบุรี");
+//        provinceList.add("กาฬสินธุ์");
+//        provinceList.add("กำแพงเพชร");
+//        provinceList.add("ขอนแก่น");
+//        provinceList.add("จันทบุรี");
+//        provinceList.add("ฉะเชิงเทรา");
+//        provinceList.add("ชลบุรี");
+//        provinceList.add("ชัยนาท");
+//        provinceList.add("ชัยภูมิ");
+//        provinceList.add("ชุมพร");
+//        provinceList.add("เชียงราย");
+//        provinceList.add("เชียงใหม่");
+//        provinceList.add("ตรัง");
+//        provinceList.add("ตราด");
+//        provinceList.add("ตาก");
+//        provinceList.add("นครนายก");
+//        provinceList.add("นครปฐม");
+//        provinceList.add("นครราชสีมา");
+//        provinceList.add("นครศรีธรรมราช");
+//        provinceList.add("นครสวรรค์");
+//        provinceList.add("นนทบุรี");
+//        provinceList.add("นราธิวาส");
+//        provinceList.add("น่าน");
+//        provinceList.add("บึงกาฬ");
+//        provinceList.add("บุรีรัมย์");
+//        provinceList.add("ปทุมธานี");
+//        provinceList.add("ประจวบคีรีขันธ์");
+//        provinceList.add("ปราจีนบุรี");
+//        provinceList.add("ปัตตานี");
+//        provinceList.add("พระนครศรีอยุธยา");
+//        provinceList.add("พังงา");
+//        provinceList.add("พัทลุง");
+//        provinceList.add("พิจิตร");
+//        provinceList.add("พิษณุโลก");
+//        provinceList.add("เพชรบุรี");
+//        provinceList.add("เพชรบูรณ์");
+//        provinceList.add("แพร่");
+//        provinceList.add("พะเยา");
+//        provinceList.add("ภูเก็ต");
+//        provinceList.add("มหาสารคาม");
+//        provinceList.add("มุกดาหาร");
+//        provinceList.add("แม่ฮ่องสอน");
+//        provinceList.add("ยะลา");
+//        provinceList.add("ยโสธร");
+//        provinceList.add("ร้อยเอ็ด");
+//        provinceList.add("ระนอง ");
+//        provinceList.add("ระยอง");
+//        provinceList.add("ราชบุรี ");
+//        provinceList.add("ลพบุรี ");
+//        provinceList.add("ลำปาง");
+//        provinceList.add("ลำพูน");
+//        provinceList.add("เลย");
+//        provinceList.add("ศรีสะเกษ");
+//        provinceList.add("สกลนคร ");
+//        provinceList.add("สงขลา ");
+//        provinceList.add("สตูล");
+//        provinceList.add("สมุทรปราการ");
+//        provinceList.add("สมุทรสงคราม");
+//        provinceList.add("สมุทรสาคร");
+//        provinceList.add("สระแก้ว");
+//        provinceList.add("สระบุรี");
+//        provinceList.add("สิงห์บุรี");
+//        provinceList.add("สุโขทัย");
+//        provinceList.add("สุพรรณบุรี");
+//        provinceList.add("สุราษฎร์ธานี");
+//        provinceList.add("สุรินทร์");
+//        provinceList.add("หนองคาย");
+//        provinceList.add("หนองบัวลำภู");
+//        provinceList.add("อ่างทอง");
+//        provinceList.add("อุดรธานี");
+//        provinceList.add("อุทัยธานี");
+//        provinceList.add("อุตรดิตถ์");
+//        provinceList.add("อุบลราชธานี");
+//        provinceList.add("อำนาจเจริญ");
+//    }
 
 }

@@ -6,7 +6,8 @@
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_search_category_default"
         android:title="Search..."
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        />
 
     <item
         android:id="@+id/allmap"
@@ -17,6 +18,11 @@
         android:id="@+id/logout"
         android:title="ออกจากระบบ"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/forsend"
+        android:title="ที่อยู่ที่บันทึกไว้"
+        app:showAsAction="never"/>
 
 
 </menu>

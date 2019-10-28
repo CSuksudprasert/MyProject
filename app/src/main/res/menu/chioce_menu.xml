@@ -5,6 +5,10 @@
         android:title="คิวอาร์โค้ด"
         />
 
+    <item
+        android:title="เก็บ"
+        android:id="@+id/save"
+        />
 
 
 </menu>
