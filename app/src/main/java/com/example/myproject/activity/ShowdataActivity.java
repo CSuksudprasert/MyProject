@@ -377,7 +377,7 @@ public class ShowdataActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.allmap:
                 startActivity(new Intent(ShowdataActivity.this, allMapActivity.class));
-                Toast.makeText(this, "allmap", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "allmap", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.logout:
@@ -387,12 +387,12 @@ public class ShowdataActivity extends AppCompatActivity {
                 intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent1);
 
-                Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "ออกจากระบบ", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.forsend:
                 startActivity(new Intent(ShowdataActivity.this, listOfSendActivity.class));
-                Toast.makeText(this, "forsend", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "forsend", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:

@@ -1,13 +1,18 @@
 package com.example.myproject.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myproject.R;
 import com.example.myproject.model.CustomAdapter;
@@ -30,6 +35,7 @@ public class listOfSendActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     ArrayList<Customer> cusData = new ArrayList<>();
     ArrayList<String> location = new ArrayList<>();
+    ArrayList<String> key = new ArrayList<>();
     String uid;
 
     @Override
@@ -50,6 +56,7 @@ public class listOfSendActivity extends AppCompatActivity {
         System.out.println("UID : " + uid);
         listCustomer();
 
+        registerForContextMenu(listview_forsend);
 
         listview_forsend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,6 +86,7 @@ public class listOfSendActivity extends AppCompatActivity {
                     Customer value = snapshot.getValue(Customer.class);
                     cusData.add(value);
                     location.add(value.getlocation());
+                    key.add(snapshot.getKey());
                 }
 //                cusName.add(value.name());
 
@@ -92,5 +100,51 @@ public class listOfSendActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.meun_delete, menu);
+
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final int index = info.position;
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ListSave").child(uid);
+
+        switch (item.getItemId()) {
+            case R.id.delete:
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                        .setCancelable(false)
+                        .setMessage("ต้องการลบออกจากบันทึกหรือไม่")
+                        .setPositiveButton("ยืนยัน", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String k = key.get(index);
+                                System.out.println("key >> " + k);
+                                deleteData(k);
+                            }
+                        });
+
+                builder.setNegativeButton("ยกเลิก", null);
+                builder.show();
+
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    public void deleteData(String id) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ListSave").child(uid).child(id);
+
+        databaseReference.removeValue();
+
+        Toast.makeText(listOfSendActivity.this, "ลบข้อมูลสำเร็จ", Toast.LENGTH_SHORT).show();
     }
 }
