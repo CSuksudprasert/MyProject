@@ -83,7 +83,7 @@ public class ShowdataActivity extends AppCompatActivity {
         nextto_adddata = findViewById(R.id.nextto_adddata);
         toolbar = findViewById(R.id.toolbar);
         qrbuttom = findViewById(R.id.qrcode);
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+       // swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("      รายชื่อ");
@@ -103,21 +103,21 @@ public class ShowdataActivity extends AppCompatActivity {
         listCustomer();
 
         //รีเฟรชหน้า
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-
-                Toast.makeText(ShowdataActivity.this,"Refresh",Toast.LENGTH_SHORT).show();
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                },1000);
-            }
-        });
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                getData();
+//
+//                Toast.makeText(ShowdataActivity.this,"Refresh",Toast.LENGTH_SHORT).show();
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                },1000);
+//            }
+//        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -125,7 +125,7 @@ public class ShowdataActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ShowdataActivity.this, MapsActivity.class);
                 intent.putExtra("Location", location.get(position)); // send location to map
-                intent.putExtra("CustomerName", cusData.get(position).toString());
+                intent.putExtra("CustomerName", cusData.get(position).address());
                 // intent.putExtra("CusAddress",cusData.get(position));
                 startActivity(intent);
             }
@@ -401,21 +401,21 @@ public class ShowdataActivity extends AppCompatActivity {
 
     }
 
-    public void getData(){
-        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
-
-        mDatabaseReff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                swipeRefreshLayout.isRefreshing();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
+//    public void getData(){
+//        final DatabaseReference mDatabaseReff = FirebaseDatabase.getInstance().getReference("Customer");
+//
+//        mDatabaseReff.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                swipeRefreshLayout.isRefreshing();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 
 }

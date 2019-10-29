@@ -7,14 +7,32 @@
     android:orientation="vertical"
     tools:context=".activity.listOfSendActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="ข้อมูลที่บันทึก"
+            android:textColor="#FFF"
+            android:textSize="20dp">
+
+        </TextView>
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
         <ListView
+
             android:id="@+id/listview_forsend"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -22,12 +40,11 @@
         </ListView>
 
         <TextView
-            android:layout_below="@id/listview_forsend"
             android:id="@+id/text_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            />
+            android:layout_below="@id/listview_forsend"
+            android:textSize="20dp" />
 
     </LinearLayout>
 

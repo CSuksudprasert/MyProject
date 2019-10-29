@@ -92,7 +92,8 @@ public class allMapActivity extends FragmentActivity implements OnMapReadyCallba
 //
                 for(int i=0;i<id;i++){
 
-                    String name = lalong.get(i).address();
+                    String name = lalong.get(i).name();
+                    String address = lalong.get(i).address();
                     double lati = Double.parseDouble((lalong.get(i).getLatitude()));
                     double longti = Double.parseDouble(lalong.get(i).getLongtitude());
 
